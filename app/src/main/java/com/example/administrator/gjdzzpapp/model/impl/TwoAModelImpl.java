@@ -2,6 +2,11 @@ package com.example.administrator.gjdzzpapp.model.impl;
 
 import android.util.Log;
 
+
+
+import java.util.HashMap;
+import java.util.Map;
+
 import com.alibaba.fastjson.JSON;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -11,10 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import com.example.administrator.gjdzzpapp.app.AppApplication;
 import com.example.administrator.gjdzzpapp.entity.JsonDataBean;
 import com.example.administrator.gjdzzpapp.model.inter.ITwoAModel;
