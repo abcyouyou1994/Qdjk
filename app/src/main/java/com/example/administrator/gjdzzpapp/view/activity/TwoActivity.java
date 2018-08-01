@@ -1,5 +1,6 @@
 package com.example.administrator.gjdzzpapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,16 +73,24 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
     }
 
     @Override
-    public <T> void response(T response, int responseFlag) {
-        /*拿到的总的对象*/
-        if (responseFlag == IMainAView.RESPONSE_ONE) {
-            jsonDataBean = (JsonDataBean) response;
-            Log.e("jsonDataBean", "返回的数据信息：" + jsonDataBean.getHome_shopline());
-            jsonpuInfoEntityList = jsonDataBean.getHome_shoplist();
-            PuListAdapter puListAdapter = new PuListAdapter(TwoActivity.this, jsonpuInfoEntityList);
-            lv_data_list.setAdapter(puListAdapter);
+    public <T> void response(T response, int responseFlag, int btnflag) {
+        //判断是哪个按钮
+        if(btnflag==1){
+            if(responseFlag==IMainAView.RESPONSE_ONE){
+                Intent intent=new Intent(TwoActivity.this,BleActivity.class);
+                startActivity(intent);
+            }
+        }else {
+            if (responseFlag == IMainAView.RESPONSE_ONE) {
+                jsonDataBean = (JsonDataBean) response;
+                Log.e("jsonDataBean", "返回的数据信息：" + jsonDataBean.getHome_shopline());
+                jsonpuInfoEntityList = jsonDataBean.getHome_shoplist();
+                PuListAdapter puListAdapter = new PuListAdapter(TwoActivity.this, jsonpuInfoEntityList);
+                lv_data_list.setAdapter(puListAdapter);
+            }
         }
     }
+
 
     @Override
     public String getToken() {
