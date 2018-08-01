@@ -2,27 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#33CCFF">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="登录成功" />
 
-    <EditText
-        android:id="@+id/et_token"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="假token" />
 
     <Button
-        android:id="@+id/btn_getdata"
+        android:id="@+id/btn_device_adjust"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开始网络请求数据" />
-
-    <ListView
-        android:id="@+id/lv_data_list"
+        android:text="设备调试"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"/>
+    <Button
+        android:id="@+id/btn_device_operation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:text="设备维护"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"/>
+
+
 </LinearLayout>
