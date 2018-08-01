@@ -70,4 +70,14 @@ public class TwoAModelImpl implements ITwoAModel {
         }
 
     }
+
+    @Override
+    public void equipment_debug() {
+
+    }
+
+    @Override
+    public void equipment_maintain() {
+
+    }
 }

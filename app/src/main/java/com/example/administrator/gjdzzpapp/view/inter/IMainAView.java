@@ -18,8 +18,9 @@ public interface IMainAView extends BaseMvpView {
 
     /*新增*/
     void showToast(String msg);
+   boolean getCheck();
 
-    String getPhone();
+    String getusername();
 
     String getPassword();
 }

@@ -32,4 +32,9 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
             }
         });
     }
+
+    @Override
+    public void getBle() {
+
+    }
 }
