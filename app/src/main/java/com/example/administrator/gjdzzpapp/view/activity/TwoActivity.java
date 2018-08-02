@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+
 import com.example.administrator.gjdzzpapp.R;
 import com.example.administrator.gjdzzpapp.adapter.PuListAdapter;
 import com.example.administrator.gjdzzpapp.base.BaseMvpActivity;
@@ -51,12 +52,11 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
     private void initViewBind() {
         btn_deviceadjust = (Button) findViewById(R.id.btn_device_adjust);
         btn_deviceoperation = (Button) findViewById(R.id.btn_device_operation);
-      //  lv_data_list = (ListView) findViewById(R.id.lv_data_list);
-       // ble_debug=(Button)findViewById(R.id);
+
         btn_deviceadjust.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //mITwoAPresenter.getBle();
+                mITwoAPresenter.getBle();
                 //新方法
             }
         });
