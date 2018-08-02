@@ -1,5 +1,6 @@
 package com.example.administrator.gjdzzpapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
+
 
 import com.example.administrator.gjdzzpapp.R;
 import com.example.administrator.gjdzzpapp.adapter.PuListAdapter;
@@ -50,12 +52,11 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
     private void initViewBind() {
         btn_deviceadjust = (Button) findViewById(R.id.btn_device_adjust);
         btn_deviceoperation = (Button) findViewById(R.id.btn_device_operation);
-      //  lv_data_list = (ListView) findViewById(R.id.lv_data_list);
-       // ble_debug=(Button)findViewById(R.id);
+
         btn_deviceadjust.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //mITwoAPresenter.getBle();
+                mITwoAPresenter.getBle();
                 //新方法
             }
         });
@@ -74,16 +75,24 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
     }
 
     @Override
-    public <T> void response(T response, int responseFlag) {
-        /*拿到的总的对象*/
-        if (responseFlag == IMainAView.RESPONSE_ONE) {
-            jsonDataBean = (JsonDataBean) response;
-            Log.e("jsonDataBean", "返回的数据信息：" + jsonDataBean.getHome_shopline());
-            jsonpuInfoEntityList = jsonDataBean.getHome_shoplist();
-            PuListAdapter puListAdapter = new PuListAdapter(TwoActivity.this, jsonpuInfoEntityList);
-            lv_data_list.setAdapter(puListAdapter);
+    public <T> void response(T response, int responseFlag, int btnflag) {
+        //判断是哪个按钮
+        if(btnflag==1){
+            if(responseFlag==IMainAView.RESPONSE_ONE){
+                Intent intent=new Intent(TwoActivity.this,BleActivity.class);
+                startActivity(intent);
+            }
+        }else {
+            if (responseFlag == IMainAView.RESPONSE_ONE) {
+                jsonDataBean = (JsonDataBean) response;
+                Log.e("jsonDataBean", "返回的数据信息：" + jsonDataBean.getHome_shopline());
+                jsonpuInfoEntityList = jsonDataBean.getHome_shoplist();
+                PuListAdapter puListAdapter = new PuListAdapter(TwoActivity.this, jsonpuInfoEntityList);
+                lv_data_list.setAdapter(puListAdapter);
+            }
         }
     }
+
 
     @Override
     public String getToken() {
