@@ -29,8 +29,8 @@ import com.example.administrator.gjdzzpapp.view.inter.ITwoAView;
  */
 public class TwoActivity extends BaseMvpActivity implements ITwoAView {
     private ITwoAPresenter mITwoAPresenter;
-    private Button btn_getdata;//请求数据按钮
-    private Button ble_debug;//蓝牙调试按钮
+    private Button btn_deviceadjust;//请求数据按钮
+    private Button btn_deviceoperation;//蓝牙调试按钮
     private EditText et_token;//模拟参数
 
     private ListView lv_data_list;//listView
@@ -49,20 +49,22 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
     }
 
     private void initViewBind() {
-        btn_getdata = (Button) findViewById(R.id.btn_getdata);
-        et_token = (EditText) findViewById(R.id.et_token);
-        lv_data_list = (ListView) findViewById(R.id.lv_data_list);
-        ble_debug=(Button)findViewById(R.id);
-        ble_debug.setOnClickListener(new View.OnClickListener() {
+        btn_deviceadjust = (Button) findViewById(R.id.btn_device_adjust);
+        btn_deviceoperation = (Button) findViewById(R.id.btn_device_operation);
+      //  lv_data_list = (ListView) findViewById(R.id.lv_data_list);
+       // ble_debug=(Button)findViewById(R.id);
+        btn_deviceadjust.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mITwoAPresenter.getBle();
+                //mITwoAPresenter.getBle();
+                //新方法
             }
         });
-        btn_getdata.setOnClickListener(new View.OnClickListener() {
+        btn_deviceoperation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mITwoAPresenter.getData();
+              //  mITwoAPresenter.getData();
+                //新方法
             }
         });
     }
