@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.ArrayAdapter;
 
+import com.example.administrator.gjdzzpapp.entity.DeviceDataBean;
 import com.example.administrator.gjdzzpapp.model.inter.IBluetoothModel;
 import com.example.administrator.gjdzzpapp.presenter.callback.CallBack;
 import com.example.administrator.gjdzzpapp.presenter.inter.IBleAPresenter;
@@ -22,6 +23,7 @@ public class BleAPresenterImpl implements IBleAPresenter {
     private ArrayList<String>mArrayAdapter=new ArrayList<>();
     private ArrayList<BluetoothDevice>devices=new ArrayList<>();
     private ArrayAdapter<String>mAdapter;
+    DeviceDataBean deviceDataBean;
 
     private BroadcastReceiver receiver=new BroadcastReceiver() {
         @Override
@@ -62,7 +64,8 @@ public class BleAPresenterImpl implements IBleAPresenter {
             mBluetoothAdapter.startDiscovery();
             iBluetoothView.editText("正在扫描");
             if(receiver!=null&&mArrayAdapter!=null){
-                callBack.onSuccess(mAdapter);
+                deviceDataBean.setDeviceList(devices);
+                callBack.onSuccess(deviceDataBean);
             }
         }
     }

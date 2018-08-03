@@ -22,7 +22,7 @@ import com.example.administrator.gjdzzpapp.view.inter.IMainAView;
 import com.example.administrator.gjdzzpapp.view.inter.ITwoAView;
 
 /**
- * Created by dingchao on 2018/3/28.
+ * Created by dutianzi on 2018/8/3.
  */
 
 /**
