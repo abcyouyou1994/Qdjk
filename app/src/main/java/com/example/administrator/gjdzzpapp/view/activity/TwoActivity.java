@@ -80,6 +80,7 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
         if(btnflag==1){
             if(responseFlag==IMainAView.RESPONSE_ONE){
                 Intent intent=new Intent(TwoActivity.this,BleActivity.class);
+
                 startActivity(intent);
             }
         }else {

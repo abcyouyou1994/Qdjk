@@ -40,11 +40,30 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
 
     @Override
     public void getBle() {
+        CallBack callBack=new CallBack()  {
+            @Override
+            public void onSuccess(Object response) {
+                mITwoAView.response(response,IMainAView.RESPONSE_ONE,1);
+                mITwoAView.showToast("蓝牙打开成功");
+            }
+
+            @Override
+            public void onError(String t) {
+                mITwoAView.response(mITwoAModel,IMainAView.RESPONSE_TWO,1);
+                mITwoAView.showToast(t);
+            }
+        };
+        boolean a = false;
         if(mbluetoothadapter==null){
             mITwoAView.showToast("本手机无蓝牙功能");
+            a=false;
+           callBack.onError("蓝牙开启失败！");
         }else if (!mbluetoothadapter.isEnabled()){
             mbluetoothadapter.enable();
+            callBack.onSuccess(mbluetoothadapter);
+           a=true;
         }
+
 
     }
 }

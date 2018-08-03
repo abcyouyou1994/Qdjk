@@ -10,5 +10,6 @@ public interface IBluetoothView {
     <T> T request(int requestFlag);
 
     <T> void response(T response, int responseFlag,int btn_flag);
-
+     void showToast(String msg);
+     void editText(String s);
 }
