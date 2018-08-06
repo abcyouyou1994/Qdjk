@@ -1,6 +1,6 @@
-package com.example.administrator.gjdzzpapp.xieyi;
+package com.example.administrator.gjdzzpapp.prorocol;
 
-public class cmd {
+public interface CMD {
     int swm=0x01&0xff;//查询工作模式
     int ssp=0x02&0xff;//设置屏参
     int rsp=0x03&0xff;//读取屏参

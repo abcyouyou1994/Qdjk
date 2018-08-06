@@ -1,4 +1,4 @@
-package com.example.administrator.gjdzzpapp.xieyi;
+package com.example.administrator.gjdzzpapp.prorocol;
 
 public class constantValue {
    public static String IP;
