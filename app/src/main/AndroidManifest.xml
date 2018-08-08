@@ -36,7 +36,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.BleActivity" />
-        <activity android:name=".view.activity.parameter2"></activity>
+        <activity android:name=".view.activity.parameter2" />
+        <activity android:name=".view.activity.OperationActivity"></activity>
     </application>
 
 </manifest>

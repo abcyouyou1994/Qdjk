@@ -169,7 +169,7 @@ class ResultReduction {
     public static void getHfwddq(String srdata) {
         // TODO Auto-generated method stub
         int tem=Integer.parseInt(srdata, 16);
-       
+
     }
 
     /*

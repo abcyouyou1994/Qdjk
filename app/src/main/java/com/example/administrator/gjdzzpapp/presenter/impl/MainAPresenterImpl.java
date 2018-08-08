@@ -48,6 +48,11 @@ public class MainAPresenterImpl implements IMainAPresenter {
                     mIMainAView.response("我是空的", IMainAView.RESPONSE_TWO);//返回对象，参数结果
                     mIMainAView.showToast(t);
                 }
+
+                @Override
+                public void onDataChange(String data) {
+
+                }
             });
         }
     }

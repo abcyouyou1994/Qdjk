@@ -35,6 +35,11 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
                 mITwoAView.response(mITwoAModel, IMainAView.RESPONSE_TWO,2);
                 mITwoAView.showToast(t);
             }
+
+            @Override
+            public void onDataChange(String data) {
+
+            }
         });
     }
 
@@ -52,6 +57,11 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
                 mITwoAView.response(mITwoAModel,IMainAView.RESPONSE_TWO,1);
                 mITwoAView.showToast(t);
             }
+
+            @Override
+            public void onDataChange(String data) {
+
+            }
         };
         boolean a = false;
         if(mbluetoothadapter==null){
@@ -65,5 +75,11 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
         }
 
 
+    }
+
+    @Override
+    public void getOperation() {
+        mITwoAView.showToast("跳转到维护界面");
+        mITwoAView.response(mITwoAView,mITwoAView.RESPONSE_ONE,2);  //测试
     }
 }
