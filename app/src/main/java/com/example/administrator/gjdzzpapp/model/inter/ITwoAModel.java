@@ -7,4 +7,6 @@ public interface ITwoAModel {
     void getData(String token, CallBack callBack);
     void equipment_debug();
     void equipment_maintain();
+  //  void getBle();
+   // void getOperation();
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -41,6 +42,7 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         mITwoAPresenter = new TwoAPresenterImpl(this);
         setContentView(R.layout.activity_two);
@@ -63,8 +65,7 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
         btn_deviceoperation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  mITwoAPresenter.getData();
-                //新方法
+                mITwoAPresenter.getOperation();
             }
         });
     }
@@ -75,24 +76,33 @@ public class TwoActivity extends BaseMvpActivity implements ITwoAView {
     }
 
     @Override
-    public <T> void response(T response, int responseFlag, int btnflag) {
+    public <T> void response(T response, int responseFlag, int btn_flag) {
         //判断是哪个按钮
-        if(btnflag==1){
-            if(responseFlag==IMainAView.RESPONSE_ONE){
-                Intent intent=new Intent(TwoActivity.this,BleActivity.class);
-                startActivity(intent);
-            }
-        }else {
+        switch (btn_flag){
+            case 1:
+                if(responseFlag==IMainAView.RESPONSE_ONE){
+                    // Intent intent=new Intent(TwoActivity.this,BleActivity.class);
+                    // startActivity(intent);
+                    Intent intent=new Intent(TwoActivity.this,BleActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case 2:
+                if(responseFlag==IMainAView.RESPONSE_ONE){
+                    Intent intent=new Intent(TwoActivity.this,OperationActivity.class);
+                    startActivity(intent);
+                }
+                break;
+        }
+            /*
             if (responseFlag == IMainAView.RESPONSE_ONE) {
                 jsonDataBean = (JsonDataBean) response;
                 Log.e("jsonDataBean", "返回的数据信息：" + jsonDataBean.getHome_shopline());
                 jsonpuInfoEntityList = jsonDataBean.getHome_shoplist();
                 PuListAdapter puListAdapter = new PuListAdapter(TwoActivity.this, jsonpuInfoEntityList);
                 lv_data_list.setAdapter(puListAdapter);
-            }
-        }
+            }*/
     }
-
 
     @Override
     public String getToken() {

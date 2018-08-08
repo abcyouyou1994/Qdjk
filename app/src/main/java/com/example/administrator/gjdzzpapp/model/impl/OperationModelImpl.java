@@ -1,13 +1,6 @@
 package com.example.administrator.gjdzzpapp.model.impl;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.view.Window;
-
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.AuthFailureError;
@@ -20,17 +13,22 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.administrator.gjdzzpapp.app.AppApplication;
 import com.example.administrator.gjdzzpapp.entity.JsonDataBean;
+import com.example.administrator.gjdzzpapp.model.inter.IOperationAModel;
 import com.example.administrator.gjdzzpapp.model.inter.ITwoAModel;
 import com.example.administrator.gjdzzpapp.presenter.callback.CallBack;
 
-public class TwoAModelImpl implements ITwoAModel {
+import java.util.HashMap;
+import java.util.Map;
+
+public class OperationModelImpl implements IOperationAModel {
 
     JsonDataBean jsondatabean;
 
-    @Override
-    public void getData(String token, final CallBack callBack) {
+
+    public void getDZZPData(String token, final CallBack callBack) {
         /*进行网络请求，获取数据*/
         // 方式二：使用静态方式创建并显示，这种进度条只能是圆条,设置title和Message提示内容
+
         if (token.equals("")) {
             
         } else {
@@ -70,16 +68,6 @@ public class TwoAModelImpl implements ITwoAModel {
             );
             mQueue.add(stringRequest);/*请求数据*/
         }
-
     }
 
-    @Override
-    public void equipment_debug() {
-
-    }
-
-    @Override
-    public void equipment_maintain() {
-
-    }
 }

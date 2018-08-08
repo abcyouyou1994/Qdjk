@@ -2,8 +2,8 @@ package com.example.administrator.gjdzzpapp.view.inter;
 
 import android.view.View;
 
-public interface ITwoAView {
-    //请求标记
+public interface IOperationView {
+    //蓝牙状态
     int REQUEST_ONE = 0;
     int REQUEST_TWO = 1;
     int REQUEST_THREE = 2;
@@ -16,7 +16,4 @@ public interface ITwoAView {
 
     <T> void response(T response, int responseFlag, int btn_flag);
 
-    String getToken();
-
-    void showToast(String msg);
 }

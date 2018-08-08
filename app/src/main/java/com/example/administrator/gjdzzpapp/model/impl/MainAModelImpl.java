@@ -27,5 +27,4 @@ public class MainAModelImpl implements IMainAModel {
         }, 2000);
     }
 
-
 }
