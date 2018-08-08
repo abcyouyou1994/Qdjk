@@ -27,14 +27,14 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
             @Override
             public void onSuccess(Object response) {
                 mITwoAView.response(response, IMainAView.RESPONSE_ONE,2);
-               // mITwoAView.response(response, IMainAView.RESPONSE_ONE,2);
+
                 mITwoAView.showToast("数据请求成功");
             }
 
             @Override
             public void onError(String t) {
                 mITwoAView.response(mITwoAModel, IMainAView.RESPONSE_TWO,2);
-               // mITwoAView.response(mITwoAModel, IMainAView.RESPONSE_TWO,2);
+               
                 mITwoAView.showToast(t);
             }
 
@@ -69,14 +69,14 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
         if(mbluetoothadapter==null){
             mITwoAView.showToast("本手机无蓝牙功能");
             //shandiao
-            mITwoAView.response(mITwoAView,mITwoAView.RESPONSE_ONE,1);  //测试
+
             a=false;
            callBack.onError("蓝牙开启失败！");
         }else if (!mbluetoothadapter.isEnabled()){
             mbluetoothadapter.enable();
             callBack.onSuccess(mbluetoothadapter);
            a=true;
-            mITwoAView.response(mITwoAView,mITwoAView.RESPONSE_ONE,1);
+
 
         }
 
@@ -86,6 +86,6 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
     @Override
     public void getOperation() {
         mITwoAView.showToast("跳转到维护界面");
-        mITwoAView.response(mITwoAView,mITwoAView.RESPONSE_ONE,2);  //测试
+
     }
 }
