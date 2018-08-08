@@ -49,6 +49,11 @@ public class BleAPresenterImpl implements IBleAPresenter {
             iBluetoothView.response(iBluetoothModel,IMainAView.RESPONSE_TWO,1);
                     iBluetoothView.showToast(t);
         }
+
+        @Override
+        public void onDataChange(String data) {
+
+        }
     };
     private void queryingPaireDevices(){
 
