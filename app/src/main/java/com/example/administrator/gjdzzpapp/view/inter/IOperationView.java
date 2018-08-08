@@ -1,5 +1,7 @@
 package com.example.administrator.gjdzzpapp.view.inter;
 
+import android.view.View;
+
 public interface IOperationView {
     //蓝牙状态
     int REQUEST_ONE = 0;
@@ -13,4 +15,5 @@ public interface IOperationView {
     <T> T request(int requestFlag);
 
     <T> void response(T response, int responseFlag, int btn_flag);
+
 }

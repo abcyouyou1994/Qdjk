@@ -14,18 +14,18 @@ import com.android.volley.toolbox.Volley;
 import com.example.administrator.gjdzzpapp.app.AppApplication;
 import com.example.administrator.gjdzzpapp.entity.JsonDataBean;
 import com.example.administrator.gjdzzpapp.model.inter.IOperationAModel;
+import com.example.administrator.gjdzzpapp.model.inter.ITwoAModel;
 import com.example.administrator.gjdzzpapp.presenter.callback.CallBack;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class OperationModelImpl implements IOperationAModel {
+
     JsonDataBean jsondatabean;
 
 
-    @Override
-    public void getDZZPData(String token, CallBack callBack) {
-
+    public void getDZZPData(String token, final CallBack callBack) {
         /*进行网络请求，获取数据*/
         // 方式二：使用静态方式创建并显示，这种进度条只能是圆条,设置title和Message提示内容
 
@@ -69,4 +69,5 @@ public class OperationModelImpl implements IOperationAModel {
             mQueue.add(stringRequest);/*请求数据*/
         }
     }
+
 }

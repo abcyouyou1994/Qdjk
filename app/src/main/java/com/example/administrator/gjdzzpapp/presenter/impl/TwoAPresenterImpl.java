@@ -13,13 +13,13 @@ import com.example.administrator.gjdzzpapp.view.inter.ITwoAView;
 public class TwoAPresenterImpl implements ITwoAPresenter {
     private ITwoAView mITwoAView;
     private ITwoAModel mITwoAModel;
-    private BluetoothAdapter mbluetoothadapter=BluetoothAdapter.getDefaultAdapter();
-
+    private BluetoothAdapter mbluetoothadapter = BluetoothAdapter.getDefaultAdapter();
 
     public TwoAPresenterImpl(ITwoAView aITwoAView) {
         mITwoAView = aITwoAView;
         mITwoAModel = new TwoAModelImpl();
     }
+
 
     @Override
     public void getData() {
@@ -27,12 +27,14 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
             @Override
             public void onSuccess(Object response) {
                 mITwoAView.response(response, IMainAView.RESPONSE_ONE,2);
+               // mITwoAView.response(response, IMainAView.RESPONSE_ONE,2);
                 mITwoAView.showToast("数据请求成功");
             }
 
             @Override
             public void onError(String t) {
                 mITwoAView.response(mITwoAModel, IMainAView.RESPONSE_TWO,2);
+               // mITwoAView.response(mITwoAModel, IMainAView.RESPONSE_TWO,2);
                 mITwoAView.showToast(t);
             }
 
@@ -66,12 +68,16 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
         boolean a = false;
         if(mbluetoothadapter==null){
             mITwoAView.showToast("本手机无蓝牙功能");
+            //shandiao
+            mITwoAView.response(mITwoAView,mITwoAView.RESPONSE_ONE,1);  //测试
             a=false;
            callBack.onError("蓝牙开启失败！");
         }else if (!mbluetoothadapter.isEnabled()){
             mbluetoothadapter.enable();
             callBack.onSuccess(mbluetoothadapter);
            a=true;
+            mITwoAView.response(mITwoAView,mITwoAView.RESPONSE_ONE,1);
+
         }
 
 

@@ -31,6 +31,8 @@ private List<BluetoothDevice> deviceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // ActionBar actionBar = getActionBar();
+        //actionBar.hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble);
 
