@@ -3,26 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#33CC00">
+    android:background="@drawable/background_2">
 
 
 
     <Button
         android:id="@+id/btn_device_adjust"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设备调试"
+        android:text=""
+        android:layout_width="320dp"
+        android:layout_height="92dp"
         android:layout_marginTop="150dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"/>
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/btn_device_adjust"
+        />
+
+
     <Button
         android:id="@+id/btn_device_operation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设备维护"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"/>
+        android:text=""
+        android:layout_width="320dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/btn_device_operation"/>
 
 
 </LinearLayout>

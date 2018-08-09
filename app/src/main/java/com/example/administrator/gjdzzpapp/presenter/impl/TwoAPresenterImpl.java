@@ -34,7 +34,7 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
             @Override
             public void onError(String t) {
                 mITwoAView.response(mITwoAModel, IMainAView.RESPONSE_TWO,2);
-               
+
                 mITwoAView.showToast(t);
             }
 
@@ -76,8 +76,6 @@ public class TwoAPresenterImpl implements ITwoAPresenter {
             mbluetoothadapter.enable();
             callBack.onSuccess(mbluetoothadapter);
            a=true;
-
-
         }
 
 
