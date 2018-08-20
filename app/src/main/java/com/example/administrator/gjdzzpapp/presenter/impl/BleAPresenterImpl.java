@@ -25,54 +25,10 @@ public class BleAPresenterImpl implements IBleAPresenter {
     private ArrayAdapter<String>mAdapter;
     DeviceDataBean deviceDataBean;
 
-    private BroadcastReceiver receiver=new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action=intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
-                BluetoothDevice device=intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                mArrayAdapter.add(device.getName()+"\n"+device.getAddress());
-                devices.add(device);
-                mAdapter.notifyDataSetChanged();
-            }
-        }
-    };
-    CallBack callBack= new CallBack() {
-        @Override
-        public void onSuccess(Object response) {
-            iBluetoothView.response(response,IMainAView.RESPONSE_ONE,1);
-            iBluetoothView.showToast("扫描成功！");
-        }
 
-        @Override
-        public void onError(String t) {
-            iBluetoothView.response(iBluetoothModel,IMainAView.RESPONSE_TWO,1);
-                    iBluetoothView.showToast(t);
-        }
-
-        @Override
-        public void onDataChange(String data) {
-
-        }
-    };
-    private void queryingPaireDevices(){
-
-    }
     @Override
     public void scan() {
-        if (!mBluetoothAdapter.isEnabled()){
-            iBluetoothView.showToast("请先打开蓝牙！");
-        }else if(mBluetoothAdapter.isDiscovering()){
-            mBluetoothAdapter.cancelDiscovery();
-        }else {
-            iBluetoothView.showToast("开始扫描……");
-            mBluetoothAdapter.startDiscovery();
-            iBluetoothView.editText("正在扫描");
-            if(receiver!=null&&mArrayAdapter!=null){
-                deviceDataBean.setDeviceList(devices);
-                callBack.onSuccess(deviceDataBean);
-            }
-        }
+
     }
 
     @Override

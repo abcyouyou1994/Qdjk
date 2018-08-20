@@ -7,9 +7,5 @@ public interface IBluetoothView {
     public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_NAME = 4;
 
-    <T> T request(int requestFlag);
 
-    <T> void response(T response, int responseFlag,int btn_flag);
-     void showToast(String msg);
-     void editText(String s);
 }

@@ -62,16 +62,6 @@ public class parameter2 extends AppCompatActivity implements ble_DebugView {
 
     }
 
-    @Override
-    public <T> void response(T response, int responseFlag, int btnflag) {
-
-
-    }
-
-    @Override
-    public <T> T request(int requestFlag) {
-        return null;
-    }
 
     @Override
     public void showToast(String msg) {
