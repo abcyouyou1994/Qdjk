@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="scantype">
+        <item>1/16扫描</item>
+        <item>1/8扫描</item>
+        <item>2/8扫描</item>
+        <item>1/4扫描</item>
+        <item>2/4扫描</item>
+        <item>3/4扫描</item>
+    </string-array>
+    <string-array name="polarity">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="lightlevel">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="worddirect">
+        <item>上移</item>
+        <item>下移</item>
+        <item>左移</item>
+        <item>右移</item>
+    </string-array>
+    <string-array name="wmovel">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="displaymode">
+        <item>静态</item>
+        <item>动态</item>
+    </string-array>
+    <string-array name="carnum">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="carmodex">
+        <item>模型一</item>
+        <item>模型二</item>
+        <item>模型三</item>
+        <item>模型四</item>
+        <item>模型五</item>
+    </string-array>
+    <string-array name="color">
+        <item>红色</item>
+        <item>黄色</item>
+        <item>绿色</item>
+    </string-array>
+    <string-array name="woresize">
+        <item>12*12</item>
+        <item>16*16</item>
+        <item>32*32</item>
+    </string-array>
+<string-array name="cardirect">
+    <item>上移</item>
+    <item>下移</item>
+</string-array>
+
+</resources>

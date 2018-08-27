@@ -3,8 +3,10 @@ package com.example.administrator.gjdzzpapp.app;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by dingchao
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 public class AppApplication extends Application {
     private static AppApplication application;
     private static Context mContext;
-
+    private static Handler mHandler;
     private String cardNum;
     ArrayList<Activity> list = new ArrayList<Activity>();
 
@@ -32,6 +34,7 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+        mHandler=new Handler();
     }
 
 
@@ -50,7 +53,12 @@ public class AppApplication extends Application {
         }
     }
 
-
+public static Context getContext(){
+        return mContext;
+}
+public static Handler getHandler(){
+        return mHandler;
+}
     public static Context getmContext() {
         return mContext;
     }

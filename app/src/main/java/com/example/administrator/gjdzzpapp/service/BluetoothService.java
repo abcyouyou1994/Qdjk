@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Message;
 
 import com.example.administrator.gjdzzpapp.presenter.callback.CallBack;
+import com.example.administrator.gjdzzpapp.prorocol.DecodingTool;
 import com.example.administrator.gjdzzpapp.prorocol.EncodingTool;
 
 import java.io.IOException;
@@ -49,6 +50,9 @@ public class BluetoothService {
         mConnectThread.start();
 
     }
+    public void SendData(String s){
+        mConnectedThread.write(s);
+    }
     private  synchronized  void connected(BluetoothSocket socket,BluetoothDevice device){
         if (mConnectThread!=null){
             mConnectThread.cancel();
@@ -63,6 +67,8 @@ public class BluetoothService {
         Message msg=new Message();
 
     }
+
+
 
     private static class ConnectedThread extends Thread{
         private BluetoothSocket mmsocket;
@@ -102,6 +108,8 @@ public class BluetoothService {
                     if(acceptlen>0){
                         acceptlen=minputstream.read(temInputBuffer);
                     }
+                    DecodingTool.checkPackage(temInputBuffer);
+
 
                 }catch (IOException e){
                     e.printStackTrace();

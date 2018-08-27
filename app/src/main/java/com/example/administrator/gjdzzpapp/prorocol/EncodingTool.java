@@ -202,7 +202,7 @@ public class EncodingTool {
         return i;
     }
     /*
-     * 得到小车移动速度
+     * 得到文字移动速度
      */
     public static String getmovevelocity(String string) {
         // TODO Auto-generated method stub

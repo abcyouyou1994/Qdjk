@@ -34,4 +34,10 @@ public interface CMD {
     int xtfs= 0x72;//心跳发送
     int hftxcsdq= 0x73;//回复通讯参数设置
     int hfcxsbbh= 0x74;//回复查询设备编号
+    int carzt1=0x01&0xff;//小车状态zou
+    int carzt2=0x02&0xff;//小车状态停
+    int usualpoint=0x00&0xff;//平常点
+    int ostation=0x01&0xff;//起点
+    int lostation=0x02&0xff;//当前点
+    int estation=0x03&0xff;//结束点
 }
