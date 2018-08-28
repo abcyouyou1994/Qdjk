@@ -1,12 +1,11 @@
 package com.example.administrator.gjdzzpapp.view.activity.fgactivity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.administrator.gjdzzpapp.R;
-import com.example.administrator.gjdzzpapp.view.activity.BaseActivity;
+import com.example.administrator.gjdzzpapp.base.BaseMvpActivity;
 
-public class ClickButtonActivity extends BaseActivity {
+public class ClickButtonActivity extends BaseMvpActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

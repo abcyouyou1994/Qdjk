@@ -1,6 +1,5 @@
 package com.example.administrator.gjdzzpapp.view.activity.fgactivity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -9,10 +8,10 @@ import android.widget.TextView;
 
 import com.example.administrator.gjdzzpapp.R;
 import com.example.administrator.gjdzzpapp.adapter.FragPagerAdapter;
-import com.example.administrator.gjdzzpapp.view.activity.BaseActivity;
+import com.example.administrator.gjdzzpapp.base.BaseMvpActivity;
 import com.example.administrator.gjdzzpapp.view.activity.widgets.NoScrollView;
 
-public class bleActivity extends BaseActivity {
+public class bleActivity extends BaseMvpActivity {
 /*
 蓝牙调试fragment主activity
 

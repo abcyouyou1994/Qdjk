@@ -1,2 +1,6 @@
 include ':app', ':volley', ':fastjson-1.2.7', ':picasso-2.5.2'
-include ':ViewPagerlibrary'
+
+include ':ViewPagerIndicatorlibrary'
+include ':ViewPagerIndicatorlibrary'
+include ':ViewPagerIndicatorlibrary'
+include ':library'
