@@ -140,7 +140,7 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(BleActivity.this, parameter2.class);
         intent.putExtra("device", devices.get(i));
-        iBleAPresenter.cancel();
+        bltAdapter.cancelDiscovery();
         startActivity(intent);
     }
 
