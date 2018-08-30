@@ -4,167 +4,299 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.administrator.gjdzzpapp.presenter.callback.CallBack;
 import com.example.administrator.gjdzzpapp.prorocol.DecodingTool;
 import com.example.administrator.gjdzzpapp.prorocol.EncodingTool;
+import com.example.administrator.gjdzzpapp.view.activity.MainActivity;
+import com.example.administrator.gjdzzpapp.view.activity.parameter2;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.UUID;
 import java.util.logging.Handler;
 
 public class BluetoothService {
-    private BluetoothAdapter bluetoothAdapter;
-    private BluetoothDevice bluetoothDevice;
-    private BluetoothSocket bluetoothSocket;
-    private BluetoothServerSocket bluetoothServerSocket;
-    private String Blname="CarTest";
-    private UUID My_UUID=UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private Handler mhandler;
+    private static final UUID Myuuid=UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private Context context;
+    private static BluetoothAdapter mAdapter;
+    private android.os.Handler mHandler;
+    public  static final int SENSEOR_NUM=1;
 
     private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private static ConnectedThread mConnectedThread;
-    private CallBack callBack;
+
     private int mState;
     public static final int STATE_NONE = 0;         //没有连接
     public static final int STATE_LISTEN = 1;       //等待连接
     public static final int STATE_CONNECTING = 2;  //正在连接
     public static final int STATE_CONNECTED = 3;   //已经连接
 
-    public BluetoothService(BluetoothAdapter bluetoothAdapter) {
-        this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    public BluetoothService(Context context,  android.os.Handler mHandler) {
+        this.context = context;
+        this.mAdapter = BluetoothAdapter.getDefaultAdapter();
+        this.mHandler = mHandler;
+        this.mState = STATE_NONE;
     }
 
-    public BluetoothService(BluetoothDevice bluetoothDevice) {
-        this.bluetoothDevice = bluetoothDevice;
-    }
-
-
-    public void connect(BluetoothDevice mDevice) {
-
-        mConnectThread=new ConnectThread(mDevice);
+    public synchronized void connect( BluetoothDevice device){
+        mConnectThread=new ConnectThread(device);
         mConnectThread.start();
+        setState(STATE_CONNECTED);
+    }
+
+    private synchronized void setState(int stateConnected) {
+        mState=stateConnected;
+        mHandler.obtainMessage(parameter2.MESSAGE_STATE_CHANGE,stateConnected,-1).sendToTarget();
+    }
+
+    public void SendData(String s) {
+        mAcceptThread.sendData(s);
+    }
+
+    public static class AcceptThread extends Thread {
+        private final BluetoothServerSocket mmServerSocket;
+
+        public   AcceptThread() {
+            BluetoothServerSocket tmp = null;
+            try {
+                tmp = mAdapter.listenUsingInsecureRfcommWithServiceRecord("BluetoothData", Myuuid);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mmServerSocket = tmp;
+        }
+
+        public void run() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            }).start();
+        }
+
+        public void sendData(String hexString){
+            if(mConnectedThread!=null){
+                mConnectedThread.write(hexString);
+            }
+        }
+        private void cancel() {
+            try {
+                if (mmServerSocket != null) {
+                    mmServerSocket.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
-    public void SendData(String s){
-        mConnectedThread.write(s);
+    public synchronized int getState(){
+        return mState;
     }
-    private  synchronized  void connected(BluetoothSocket socket,BluetoothDevice device){
-        if (mConnectThread!=null){
-            mConnectThread.cancel();
-            mConnectThread=null;
-        }
-        if (mAcceptThread!=null){
+    public synchronized void stop(){
+        if (mConnectedThread!=null){
+            mConnectedThread.cancel();
+            mConnectedThread=null;
+        }if(mAcceptThread!=null){
             mAcceptThread.cancel();
             mAcceptThread=null;
         }
-        mConnectedThread=new ConnectedThread(socket);
-        mConnectedThread.start();
-        Message msg=new Message();
-
+        setState(STATE_NONE);
     }
+    private class ConnectThread extends Thread {
+        private final BluetoothSocket mmsocket;
+        private final BluetoothDevice mmDevice;
 
-
-
-    private static class ConnectedThread extends Thread{
-        private BluetoothSocket mmsocket;
-        private InputStream minputstream;
-        private OutputStream moutputStream;
-
-
-        public ConnectedThread(BluetoothSocket socket) {
-            this.mmsocket=socket;
-            InputStream temin=null;
-            OutputStream temou=null;
+        public ConnectThread(BluetoothDevice device) {
+            mmDevice = device;
+            BluetoothSocket tmp = null;
             try {
-                temin=socket.getInputStream();
-                temou=socket.getOutputStream();
-            }catch (IOException e){
+                tmp = device.createRfcommSocketToServiceRecord(Myuuid);
+            } catch (IOException e) {
                 e.printStackTrace();
+                Log.e("TAG", e.toString());
             }
-            minputstream=temin;
-            moutputStream=temou;
+            mmsocket = tmp;
+
         }
 
-        @Override
         public void run() {
-            byte[]temInputBuffer=new byte[1024];
-            byte[]bytes;
-            int acceptlen=0;
-            int len=0;
+            mAdapter.cancelDiscovery();
+            try {
+                mmsocket.connect();
+                Log.d("TAG", "连接成功");
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "连接失败" + e.toString());
+                BluetoothService.this.start();
+                return;
+            }
+            synchronized (BluetoothService.this) {
+                mConnectThread = null;
+            }
+            connected(mmsocket, mmDevice);
+        }
+
+        public void cancle() {
+            try {
+                mmsocket.close();
+            } catch (IOException e) {
+
+            }
+        }
+
+    }
+    public class ConnectedThread extends Thread {
+        private BluetoothSocket mmSocket;
+        private InputStream mmInStream;
+        private OutputStream mmOutStream;
+        private byte[] packBuffer = new byte[128];
+        private ByteBuffer buffer=ByteBuffer.allocate(1024);
+        private Queue<Byte> queueBuffer = new LinkedList<Byte>();
+
+        private ConnectedThread(BluetoothSocket socket) {
+            this.mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+            try {
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+
+        public void run() {
+            byte[] tempInputBuffer=new byte[1024] ;
+            byte [] bytes;
+            int acceptedLen = 0;
             String readMessage;
-            while (true){
+            int len=0;
+            int flag=-1;
+            while (true) {
                 try {
                     try {
-                        Thread.sleep(100);
-                    }catch (InterruptedException e){
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    acceptlen=minputstream.available();
-                    if(acceptlen>0){
-                        acceptlen=minputstream.read(temInputBuffer);
-                    }
-                    DecodingTool.checkPackage(temInputBuffer);
 
+                    acceptedLen=mmInStream.available();
+                    if(acceptedLen>0){
+                        len=mmInStream.read(tempInputBuffer);
 
-                }catch (IOException e){
+                    }DecodingTool.checkPackage(tempInputBuffer);
+//                if(mmInStream.available()<0){
+//                    continue;
+//                }else {
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }acceptedLen=mmInStream.read(tempInputBuffer);
+//                int readcount=0;
+//                bytes=new byte[acceptedLen];
+//                while (readcount<acceptedLen){
+//                    readcount+=mmInStream.read(bytes,readcount,acceptedLen-readcount);
+//                }
+//                    Message msg = new Message();
+//                        Bundle data = new Bundle();
+//                        //data.putString("dtz",readMessage);
+//                        data.putByteArray("dtz", tempInputBuffer);
+//                        msg.what = communityBLT.MESSAGE_READ;
+//                        msg.setData(data);
+//                        mHandler.sendMessage(msg);
+
+                } catch (IOException e) {
                     e.printStackTrace();
+                    Log.e("Error", e.toString());
+
                 }
             }
         }
-        public  void  write(String s){
-            byte[]data=EncodingTool.hexStringToByte(s);
+
+        public void write(String hexString){
+            byte[] data_send=DecodingTool.hexStringToByte(hexString);
+
             try {
-                moutputStream.write(data);
-                moutputStream.flush();
+                mmOutStream.write(data_send);
+                mmOutStream.flush();
             }catch (IOException e){
                 e.printStackTrace();
+                setState(parameter2.MESSAGE_WRITE);
             }
         }
-        public void cancel(){
+
+
+        public void cancel() {
             try {
-                mmsocket.close();
-            }catch (IOException e){
-                e.printStackTrace();
+                mmSocket.close();
+            } catch (IOException e) {
             }
         }
     }
-
-    private class AcceptThread extends Thread {
-
-        public void cancel() {
+    public synchronized void start() {
+        if (mConnectThread != null) {
+            mConnectThread.cancle();
+            mConnectThread = null;
         }
+        if (mAcceptThread == null) {
+            mAcceptThread = new AcceptThread();
+            mAcceptThread.start();
+        }
+        setState(STATE_LISTEN);
+    }
+    private void connectionFailed() {
+
+        setState(STATE_LISTEN);
+        Message msg=mHandler.obtainMessage(parameter2.MESSAGE_TOAST);
+        Bundle bundle=new Bundle();
+        bundle.putString("toast","未能连接设备");
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
     }
 
-    private class ConnectThread extends Thread{
-        private final BluetoothSocket mmsocket;
-        private final BluetoothDevice mmDevice;
-        public ConnectThread(BluetoothDevice mDevice) {
-            mmDevice=mDevice;
-            BluetoothSocket tmp=null;
-            try {
-                tmp=mDevice.createRfcommSocketToServiceRecord(My_UUID);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            mmsocket=tmp;
-        }
+    private void connectionLost() {
+        setState(STATE_LISTEN);
+        Message msg=mHandler.obtainMessage(parameter2.MESSAGE_TOAST);
+        Bundle bundle=new Bundle();
+        bundle.putString("toast","设备丢失");
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
 
-        @Override
-        public void run() {
-            try {
-                mmsocket.connect();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+    }
+    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
+        if (mConnectThread != null) {
+            mConnectThread.cancle();
+            mConnectThread = null;
         }
-
-        public void cancel() {
-
+        if (mAcceptThread != null) {
+            mAcceptThread.cancel();
+            mAcceptThread = null;
         }
+        mConnectedThread = new ConnectedThread(socket);
+        mConnectedThread.start();
+
+        Message msg = mHandler.obtainMessage(parameter2.MESSAGE_DEVICE_NAME);
+        Bundle bundle = new Bundle();
+        bundle.putString("device_name", device.getName());
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+        setState(STATE_CONNECTED);
     }
 }

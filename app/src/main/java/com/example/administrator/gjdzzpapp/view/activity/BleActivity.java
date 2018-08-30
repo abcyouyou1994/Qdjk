@@ -22,6 +22,7 @@ import com.example.administrator.gjdzzpapp.base.BaseMvpActivity;
 import com.example.administrator.gjdzzpapp.entity.DeviceDataBean;
 import com.example.administrator.gjdzzpapp.presenter.impl.BleAPresenterImpl;
 import com.example.administrator.gjdzzpapp.presenter.inter.IBleAPresenter;
+import com.example.administrator.gjdzzpapp.view.activity.fgactivity.bleActivity;
 import com.example.administrator.gjdzzpapp.view.inter.IBluetoothView;
 import com.example.administrator.gjdzzpapp.view.inter.IMainAView;
 
@@ -38,7 +39,18 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
     private deviceAdapter adapter;
     private IBleAPresenter iBleAPresenter;
 
-
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                devices.add(device);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // ActionBar actionBar = getActionBar();
@@ -60,10 +72,24 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
             Toast.makeText(this, "蓝牙已经打开！", 0).show();
         }
         if(!bltAdapter.isEnabled()){
+            Toast.makeText(this, "蓝牙打开！", 0).show();
             bltAdapter.enable();
         }
-    }
 
+    }
+    @SuppressLint("WrongConstant")
+    private void queryingPairedDevices() {
+        mArrayAdapter.clear();
+        devices = new ArrayList<>(bltAdapter.getBondedDevices());
+        if (devices.size() > 0) {
+            for (BluetoothDevice device : devices) {
+                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+            }
+            mAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "没有找到已经配对的蓝牙", 0).show();
+        }
+    }
     private void initViewBind() {
 
         btn_back=(Button)findViewById(R.id.btn_back_ble);
@@ -95,6 +121,7 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
 
             if (!startDiscovery) {
                 Toast.makeText(this, "开始扫描失败！", 0).show();
+
                 return;
             }
             Toast.makeText(this, "开始扫描", 0).show();
@@ -103,23 +130,10 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
             IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
             registerReceiver(receiver, filter);
         } else {
-            String scan_state1 = "正在扫描";
-
             unregisterReceiver(receiver);
         }
     }
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-                devices.add(device);
-                mAdapter.notifyDataSetChanged();
-            }
-        }
-    };
+
 
 
 
@@ -131,7 +145,6 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
     }
 
     protected void onDestroy() {
-
         super.onDestroy();
         unregisterReceiver(receiver);
     }
