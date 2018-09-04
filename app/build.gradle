@@ -46,4 +46,3 @@ dependencies {
     implementation 'com.junkchen.blelib:blelib:1.2.4'
     implementation project(':library')
 }
-
