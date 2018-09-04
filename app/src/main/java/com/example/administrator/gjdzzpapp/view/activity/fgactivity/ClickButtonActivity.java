@@ -11,5 +11,9 @@ public class ClickButtonActivity extends BaseMvpActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_button);
+        initView();
+    }
+
+    private void initView() {
     }
 }

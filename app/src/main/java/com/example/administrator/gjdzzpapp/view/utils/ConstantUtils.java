@@ -23,4 +23,10 @@ public interface ConstantUtils {
      */
     int MESSAGE_COMPLETE=1;
     int MESSAGE_FAILED=2;
+//蓝牙状态标识位
+    public static final int MESSAGE_STATE_CHANGE = 1; // 状态改变
+    public static final int MESSAGE_READ = 2;          // 读取数据
+    public static final int MESSAGE_WRITE = 3;
+    public static final int MESSAGE_DEVICE_NAME = 4;
+    public static final int MESSAGE_TOAST = 5;         // Toast
 }

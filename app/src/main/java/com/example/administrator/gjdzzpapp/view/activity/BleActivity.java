@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BleActivity extends BaseMvpActivity implements IBluetoothView, AdapterView.OnItemClickListener {
+    private static final int REQUEST_ENABLE_BT =1 ;
     private ListView device_list;
     private Button btn_scan,btn_back;
     private ArrayList<String> mArrayAdapter = new ArrayList<>();
@@ -58,7 +59,7 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ble);
 
-        checkBle();
+
         initViewBind();
 
     }
@@ -71,10 +72,14 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
         if(bltAdapter.isEnabled()){
             Toast.makeText(this, "蓝牙已经打开！", 0).show();
         }
-        if(!bltAdapter.isEnabled()){
-            Toast.makeText(this, "蓝牙打开！", 0).show();
-            bltAdapter.enable();
+        if(!bltAdapter.isEnabled()) {
+
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            return;
         }
+            queryingPairedDevices();
+
 
     }
     @SuppressLint("WrongConstant")
@@ -105,6 +110,7 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 scan();
             }
         });
@@ -116,6 +122,7 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
 
     @SuppressLint("WrongConstant")
     private void scan() {
+        checkBle();
         if (bltAdapter.isEnabled() && !bltAdapter.isDiscovering()) {
             boolean startDiscovery = bltAdapter.startDiscovery();
 
@@ -132,13 +139,14 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
         } else {
             unregisterReceiver(receiver);
         }
+
     }
 
 
 
 
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(BleActivity.this, parameter2.class);
+        Intent intent = new Intent(BleActivity.this, bleActivity.class);
         intent.putExtra("device", devices.get(i));
         bltAdapter.cancelDiscovery();
         startActivity(intent);

@@ -1,12 +1,12 @@
 package com.example.administrator.gjdzzpapp.presenter.impl;
 
 import com.example.administrator.gjdzzpapp.presenter.inter.BlueDebugAPresenter;
+import com.example.administrator.gjdzzpapp.view.activity.fgactivity.bleActivity;
 
-public class param2PresenterImpl implements BlueDebugAPresenter {
-
+public class BlueDebugPressenterImpl implements BlueDebugAPresenter {
+   private bleActivity ble;
     @Override
     public void send(String s) {
-
 
     }
 
@@ -14,6 +14,4 @@ public class param2PresenterImpl implements BlueDebugAPresenter {
     public void receive(String s) {
 
     }
-
-
 }

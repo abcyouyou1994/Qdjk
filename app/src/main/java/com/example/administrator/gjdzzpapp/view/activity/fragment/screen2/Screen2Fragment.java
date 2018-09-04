@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import com.example.administrator.gjdzzpapp.R;
 import com.example.administrator.gjdzzpapp.view.activity.fragment.BaseFragment;
+import com.example.administrator.gjdzzpapp.view.activity.fragment.FragmentFactory;
 import com.example.administrator.gjdzzpapp.view.utils.startUtils;
 
 public class Screen2Fragment extends BaseFragment {
@@ -46,6 +47,13 @@ public class Screen2Fragment extends BaseFragment {
 
     @Override
     public void onClick(View view) {
-        startUtils.startActivityById(getActivity(),view.getId());
+        switch (view.getId()){
+            case R.id.s2param:
+                FragmentFactory.creates2ById(R.id.s2param);
+                break;
+            case R.id.s2report:
+                FragmentFactory.creates2ById(R.id.s2report);
+                break;
+        }
     }
 }

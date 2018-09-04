@@ -14,6 +14,7 @@ import com.example.administrator.gjdzzpapp.prorocol.DecodingTool;
 import com.example.administrator.gjdzzpapp.prorocol.EncodingTool;
 import com.example.administrator.gjdzzpapp.view.activity.MainActivity;
 import com.example.administrator.gjdzzpapp.view.activity.parameter2;
+import com.example.administrator.gjdzzpapp.view.utils.ConstantUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -163,8 +164,6 @@ public class BluetoothService {
         private InputStream mmInStream;
         private OutputStream mmOutStream;
         private byte[] packBuffer = new byte[128];
-        private ByteBuffer buffer=ByteBuffer.allocate(1024);
-        private Queue<Byte> queueBuffer = new LinkedList<Byte>();
 
         private ConnectedThread(BluetoothSocket socket) {
             this.mmSocket = socket;
@@ -199,28 +198,9 @@ public class BluetoothService {
                     if(acceptedLen>0){
                         len=mmInStream.read(tempInputBuffer);
 
-                    }DecodingTool.checkPackage(tempInputBuffer);
-//                if(mmInStream.available()<0){
-//                    continue;
-//                }else {
-//                    try {
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }acceptedLen=mmInStream.read(tempInputBuffer);
-//                int readcount=0;
-//                bytes=new byte[acceptedLen];
-//                while (readcount<acceptedLen){
-//                    readcount+=mmInStream.read(bytes,readcount,acceptedLen-readcount);
-//                }
-//                    Message msg = new Message();
-//                        Bundle data = new Bundle();
-//                        //data.putString("dtz",readMessage);
-//                        data.putByteArray("dtz", tempInputBuffer);
-//                        msg.what = communityBLT.MESSAGE_READ;
-//                        msg.setData(data);
-//                        mHandler.sendMessage(msg);
+                    }
+                    DecodingTool.checkPackage(tempInputBuffer);
+
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -245,7 +225,10 @@ public class BluetoothService {
 
         public void cancel() {
             try {
+                mmInStream=null;
+                mmOutStream=null;
                 mmSocket.close();
+
             } catch (IOException e) {
             }
         }
@@ -264,7 +247,7 @@ public class BluetoothService {
     private void connectionFailed() {
 
         setState(STATE_LISTEN);
-        Message msg=mHandler.obtainMessage(parameter2.MESSAGE_TOAST);
+        Message msg=mHandler.obtainMessage(ConstantUtils.MESSAGE_TOAST);
         Bundle bundle=new Bundle();
         bundle.putString("toast","未能连接设备");
         msg.setData(bundle);
@@ -273,7 +256,7 @@ public class BluetoothService {
 
     private void connectionLost() {
         setState(STATE_LISTEN);
-        Message msg=mHandler.obtainMessage(parameter2.MESSAGE_TOAST);
+        Message msg=mHandler.obtainMessage(ConstantUtils.MESSAGE_TOAST);
         Bundle bundle=new Bundle();
         bundle.putString("toast","设备丢失");
         msg.setData(bundle);
@@ -292,7 +275,7 @@ public class BluetoothService {
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
 
-        Message msg = mHandler.obtainMessage(parameter2.MESSAGE_DEVICE_NAME);
+        Message msg = mHandler.obtainMessage(ConstantUtils.MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
         bundle.putString("device_name", device.getName());
         msg.setData(bundle);
