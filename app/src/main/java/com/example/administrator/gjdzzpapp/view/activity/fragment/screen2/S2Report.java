@@ -8,23 +8,24 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.administrator.gjdzzpapp.R;
-import com.example.administrator.gjdzzpapp.prorocol.CMD;
-import com.example.administrator.gjdzzpapp.prorocol.DecodingTool;
-import com.example.administrator.gjdzzpapp.prorocol.EncodingTool;
-import com.example.administrator.gjdzzpapp.service.BluetoothService;
+import com.example.administrator.gjdzzpapp.view.activity.MainActivity;
+import com.example.administrator.gjdzzpapp.view.activity.fgactivity.bleDebug;
 import com.example.administrator.gjdzzpapp.view.activity.fragment.BaseFragment;
+import com.example.administrator.gjdzzpapp.view.activity.fragment.S2Fragment;
 
-public class Screen2Report extends BaseFragment {
-   private EditText s2Address,s2Roadid,s2mode,s2wordsize,s2wde,s2mle;
-   private Spinner s2displaymode,s2words,s2worddirect,s2movelevel;
-   private ArrayAdapter<String > s2dmAdapter,s2wsAdapter,s2wdAdapter,s2mlAdapter;
-   private String[] s2dm_item,s2ws_item,s2wd_item,s2ml_item;
-   private String s2dm,s2ws,s2wd,s2ml;
-   private Button s2rSetting,s2rSelect,s2rClear;
-   private BluetoothService bls;
+
+public class S2Report extends BaseFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+    private EditText s2Address,s2Roadid,s2mode,s2wordsize,s2wde,s2mle;
+    private Spinner s2displaymode,s2words,s2worddirect,s2movelevel;
+    private ArrayAdapter<String > s2dmAdapter,s2wsAdapter,s2wdAdapter,s2mlAdapter;
+    private String[] s2dm_item,s2ws_item,s2wd_item,s2ml_item;
+    private String s2dm,s2ws,s2wd,s2ml;
+    private Button s2rSetting,s2rSelect,s2rClear,s2rFinish;
+
     @Override
-    protected View getSuccessView() {
-        View view=View.inflate(getActivity(),R.layout.screen2_fg,null);
+    public View initView() {
+        mActivity=(MainActivity)getActivity();
+        View view=View.inflate(mActivity, R.layout.s2report_fragment,null);
         initView(view);
         return view;
     }
@@ -59,81 +60,72 @@ public class Screen2Report extends BaseFragment {
         s2rSetting=(Button)view.findViewById(R.id.s2r_setting);
         s2rSelect=(Button)view.findViewById(R.id.s2r_select);
         s2rClear=(Button)view.findViewById(R.id.s2r_clear);
-        s2displaymode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        s2rFinish=(Button)view.findViewById(R.id.s2_reportfinish) ;
+        s2displaymode.setOnItemSelectedListener(this);
+        s2words.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String []item=getResources().getStringArray(R.array.displaymode);
-                s2dm=EncodingTool.getwordmode(item[i]);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
             }
-        });
-        s2words.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[]item=getResources().getStringArray(R.array.woresize);
-                s2ws=EncodingTool.getwordsize(item[i]);
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
+
         });
-        s2worddirect.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[]item=getResources().getStringArray(R.array.worddirect);
-                s2wd=EncodingTool.getmovedirect(item[i]);
-            }
-        });
-        s2movelevel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] item=getResources().getStringArray(R.array.wmovel);
-                s2ml=EncodingTool.getmovevelocity(item[i]);
-            }
-        });
+        s2worddirect.setOnItemSelectedListener(this);
+        s2movelevel.setOnItemSelectedListener(this);
         s2rSetting.setOnClickListener(this);
         s2rSelect.setOnClickListener(this);
         s2rClear.setOnClickListener(this);
+        s2rFinish.setOnClickListener(this);
     }
 
     @Override
-    public void send(String s) {
-        bls.SendData(s);
-    }
-
-    @Override
-    protected Object requestData() {
+    public View initData() {
         return null;
     }
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()){
-            case R.id.s2r_setting:
-                setting();
-                break;
             case R.id.s2r_select:
-                select();
+                selects2r();
+                break;
+            case R.id.s2r_setting:
+                settings2r();
                 break;
             case R.id.s2r_clear:
-                clear();
+                clears2r();
                 break;
+            case R.id.s2_reportfinish:
+                finishs2r();
         }
     }
 
-    private void clear() {
+    private void finishs2r() {
+        mActivity=(bleDebug)getActivity();
+        ((bleDebug) mActivity).initFragment(new S2Fragment());
     }
 
-    private void select() {
-        String senddata=DecodingTool.getpackage(null,0,CMD.wrsr);
-        send(senddata);
+    private void clears2r() {
     }
 
-    private void setting() {
-        String roadid1=DecodingTool.word2hexstr(s2Roadid.getText().toString());
-        String s;
-        if(s2dm=="静态"){
-              s = s2Address.getText().toString() + roadid1.length() + roadid1+ s2ws + s2dm;
-        }else {
-             s = s2Address.getText().toString() + roadid1.length() + roadid1+ s2ws + s2dm + s2wd + s2ml;
-        }
-        String senddata=DecodingTool.getpackage(s,s.length(),CMD.wrs);
-        send(senddata);
+    private void settings2r() {
+    }
+
+    private void selects2r() {
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

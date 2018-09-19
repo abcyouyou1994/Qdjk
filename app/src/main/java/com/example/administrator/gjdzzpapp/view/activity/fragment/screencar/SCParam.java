@@ -1,6 +1,5 @@
 package com.example.administrator.gjdzzpapp.view.activity.fragment.screencar;
 
-import android.bluetooth.BluetoothDevice;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -9,37 +8,32 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.administrator.gjdzzpapp.R;
-import com.example.administrator.gjdzzpapp.prorocol.CMD;
-import com.example.administrator.gjdzzpapp.prorocol.DecodingTool;
-import com.example.administrator.gjdzzpapp.prorocol.EncodingTool;
-import com.example.administrator.gjdzzpapp.prorocol.constantValue;
-import com.example.administrator.gjdzzpapp.service.BluetoothService;
+import com.example.administrator.gjdzzpapp.view.activity.MainActivity;
+import com.example.administrator.gjdzzpapp.view.activity.fgactivity.bleDebug;
 import com.example.administrator.gjdzzpapp.view.activity.fragment.BaseFragment;
-import com.example.administrator.gjdzzpapp.view.activity.fragment.BasePagerFragment;
+import com.example.administrator.gjdzzpapp.view.activity.fragment.ScFragment;
 
-public class CarParam extends BasePagerFragment {
-    private BluetoothService bls;
-    private Button carpSetting,carpSelect,carpClear;
+
+public class SCParam extends BaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    private Button carpSetting,carpSelect,carpClear,carpfinish;
     private Spinner OEpority,Datapority,scanType,lightl;
     private EditText swidth,sheight;
     String []pority_item,st_item,ll_item;
     String scantype,OEp,Datap,ll;
     ArrayAdapter<String> OEadapter,Dataadapter,stadapter,llAdapter;
-    public  View getSuccessView(){
-        View view=View.inflate(getActivity(), R.layout.screencar,null);
+    @Override
+    public View initView() {
+        mActivity=(MainActivity)getActivity();
+        View view=View.inflate(mActivity, R.layout.scparam_fragment,null);
         initView(view);
-        setListener();
         return view;
     }
-
-    private void setListener() {
-
-    }
-
     private void initView(View view) {
         carpSetting=(Button)view.findViewById(R.id.scarp_setting);
         carpSelect=(Button)view.findViewById(R.id.scarp_select);
         carpClear=(Button)view.findViewById(R.id.scarp_clear);
+        carpfinish=(Button)view.findViewById(R.id.scp_finish);
         OEpority=(Spinner)view.findViewById(R.id.scarOE_polority);
         pority_item=getResources().getStringArray(R.array.polarity);
         OEadapter=new ArrayAdapter <String>(view.getContext(),android.R.layout.simple_spinner_item,pority_item);
@@ -63,84 +57,56 @@ public class CarParam extends BasePagerFragment {
         carpSetting.setOnClickListener(this);
         carpSelect.setOnClickListener(this);
         carpClear.setOnClickListener(this);
-        OEpority.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] item=getResources().getStringArray(R.array.polarity);
-                OEp=EncodingTool.getpolarity(item[i]);
-            }
-        });
-        Datapority.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] item=getResources().getStringArray(R.array.polarity);
-                Datap=EncodingTool.getpolarity(item[i]);
-            }
-        });
-        scanType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] item=getResources().getStringArray(R.array.scantype);
-                scantype=EncodingTool.getsctype(item[i]);
-            }
-        });
-        lightl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] item=getResources().getStringArray(R.array.lightlevel);
-                ll=EncodingTool.getlightlevel(item[i]);
-            }
-        });
+        OEpority.setOnItemSelectedListener(this);
+        carpfinish.setOnClickListener(this);
+        Datapority.setOnItemSelectedListener(this);
+        scanType.setOnItemSelectedListener(this);
+        lightl.setOnItemSelectedListener(this);
+    }
+    @Override
+    public View initData() {
+        return null;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.scarp_setting:
-                settingpar();
+                settingscarp();
                 break;
             case R.id.scarp_select:
-                select();
+                selectscarp();
                 break;
             case R.id.scarp_clear:
-                clear();
+                clearscarp();
                 break;
+            case R.id.scp_finish:
+                finishscp();
         }
     }
 
-    private void clear() {
+    private void clearscarp() {
+    }
+
+    private void selectscarp() {
 
     }
 
-    private void select() {
-        String senddata=DecodingTool.getpackage(null,0,CMD.rsp);
-        send(senddata);
+    private void finishscp() {
+        mActivity=(bleDebug)getActivity();
+        ((bleDebug) mActivity).initFragment(new ScFragment());
     }
 
-    private void settingpar() {
-        String s=swidth.getText().toString()+sheight.getText().toString()+Datap+OEp+scantype+"ff"+ll;
-         String senddata=DecodingTool.getpackage(s,s.length(),CMD.ssp);
-         send(senddata);
-    }
-
-
-    @Override
-    protected void receiveData(String s) {
-
+    private void settingscarp() {
     }
 
     @Override
-    protected void setActionBar() {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
     }
 
     @Override
-    protected void showToast(String msg) {
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
-
-    @Override
-    public void send(String s) {
-        bls.SendData(s);
     }
 }

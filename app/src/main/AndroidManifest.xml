@@ -40,9 +40,7 @@
             android:name=".view.activity.OperationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".view.activity.parameter2" />
-        <activity android:name=".view.activity.fgactivity.bleActivity" />
-        <activity android:name=".view.activity.fgactivity.ClickButtonActivity" />
-        <activity android:name=".view.activity.fgactivity.ScreenCaractivity"></activity>
+        <activity android:name=".view.activity.fgactivity.bleDebug"></activity>
     </application>
 
 </manifest>

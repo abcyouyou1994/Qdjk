@@ -8,23 +8,23 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.administrator.gjdzzpapp.R;
-import com.example.administrator.gjdzzpapp.prorocol.CMD;
-import com.example.administrator.gjdzzpapp.prorocol.DecodingTool;
-import com.example.administrator.gjdzzpapp.prorocol.EncodingTool;
-import com.example.administrator.gjdzzpapp.service.BluetoothService;
+import com.example.administrator.gjdzzpapp.view.activity.MainActivity;
+import com.example.administrator.gjdzzpapp.view.activity.fgactivity.bleDebug;
 import com.example.administrator.gjdzzpapp.view.activity.fragment.BaseFragment;
+import com.example.administrator.gjdzzpapp.view.activity.fragment.ScFragment;
 
-public class CarReport extends BaseFragment {
+
+public class SCReport extends BaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private Spinner carId,carmd,carmode,carcolor;
-    private ArrayAdapter<String>caridAdapter,carmdAdapter,carmodeAdapter,carcolorAdapter;
+    private ArrayAdapter<String> caridAdapter,carmdAdapter,carmodeAdapter,carcolorAdapter;
     private String[]carId_item,carmd_item,carmode_item,carcolor_item;
-    private Button carRSetting,carRSelect,carRClear;
+    private Button carRSetting,carRSelect,carRClear,carFinish;
     private EditText carID_edit,carmd_edit,carmode_edit,carcolor_edit;
     String carid,carmds,carmodes,carcs;
-    private BluetoothService bls;
     @Override
-    protected View getSuccessView() {
-        View view=View.inflate(getActivity(), R.layout.screencar_report_fragment,null);
+    public View initView() {
+        mActivity=(MainActivity)getActivity();
+        View view=View.inflate(mActivity, R.layout.screport_fragment,null);
         initView(view);
         return view;
     }
@@ -57,76 +57,62 @@ public class CarReport extends BaseFragment {
         carRSetting=(Button)view.findViewById(R.id.carr_setting);
         carRSelect=(Button)view.findViewById(R.id.carr_select);
         carRClear=(Button)view.findViewById(R.id.carr_clear);
-        carId.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String []item=getResources().getStringArray(R.array.carnum);
-                carid=EncodingTool.getcarid(item[i]);
-            }
-        });
-        carmd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] item=getResources().getStringArray(R.array.cardirect);
-                carmds=EncodingTool.getmodx(item[i]);
-            }
-        });
-        carmode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[] item=getResources().getStringArray(R.array.carmodex);
-                carmodes=EncodingTool.getcarmx(item[i]);
-            }
-        });
-        carcolor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String[]item=getResources().getStringArray(R.array.color);
-                carcs=EncodingTool.getscreenColor(item[i]);
-            }
-        });
+        carFinish=(Button)view.findViewById(R.id.scr_finish);
+        carId.setOnItemSelectedListener(this);
+        carmd.setOnItemSelectedListener(this);
+        carmode.setOnItemSelectedListener(this);
+        carcolor.setOnItemSelectedListener(this);
         carRSetting.setOnClickListener(this);
         carRSelect.setOnClickListener(this);
         carRClear.setOnClickListener(this);
+        carFinish.setOnClickListener(this);
     }
 
     @Override
-    public void send(String s) {
-        bls.SendData(s);
-    }
-
-    @Override
-    protected Object requestData() {
+    public View initData() {
         return null;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.carr_setting:
-                setting();
+            case R.id.scr_finish:
+                finishscar();
                 break;
             case R.id.carr_select:
-                select();
+                selectcar();
+                break;
+            case R.id.carr_setting:
+                settingcar();
                 break;
             case R.id.carr_clear:
-                clear();
+                clearcar();
                 break;
         }
-    }
-
-    private void clear() {
 
     }
 
-    private void select() {
-        String senddata=DecodingTool.getpackage(null,0,CMD.rcs);
-        send(senddata);
+    private void clearcar() {
     }
 
-    private void setting() {
-        String s=carid+carmds+carmode+carcolor;
-        String Sendata=DecodingTool.getpackage(s,s.length(),CMD.cs);
-        send(Sendata);
+    private void settingcar() {
+    }
+
+    private void selectcar() {
+    }
+
+    private void finishscar() {
+        mActivity=(bleDebug)getActivity();
+        ((bleDebug) mActivity).initFragment(new ScFragment());
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

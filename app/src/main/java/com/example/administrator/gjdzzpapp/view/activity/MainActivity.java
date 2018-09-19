@@ -30,8 +30,6 @@ public class MainActivity extends BaseMvpActivity implements IMainAView {
         super.onCreate(savedInstanceState);
         mIMainAPresenter = new MainAPresenterImpl(this);
         setContentView(R.layout.activity_main);
-
-
         initViewBind();
     }
 

@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,15 +18,11 @@ import android.widget.Toast;
 import com.example.administrator.gjdzzpapp.R;
 import com.example.administrator.gjdzzpapp.adapter.deviceAdapter;
 import com.example.administrator.gjdzzpapp.base.BaseMvpActivity;
-import com.example.administrator.gjdzzpapp.entity.DeviceDataBean;
-import com.example.administrator.gjdzzpapp.presenter.impl.BleAPresenterImpl;
 import com.example.administrator.gjdzzpapp.presenter.inter.IBleAPresenter;
-import com.example.administrator.gjdzzpapp.view.activity.fgactivity.bleActivity;
+import com.example.administrator.gjdzzpapp.view.activity.fgactivity.bleDebug;
 import com.example.administrator.gjdzzpapp.view.inter.IBluetoothView;
-import com.example.administrator.gjdzzpapp.view.inter.IMainAView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BleActivity extends BaseMvpActivity implements IBluetoothView, AdapterView.OnItemClickListener {
     private static final int REQUEST_ENABLE_BT =1 ;
@@ -146,7 +141,7 @@ public class BleActivity extends BaseMvpActivity implements IBluetoothView, Adap
 
 
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(BleActivity.this, bleActivity.class);
+        Intent intent = new Intent(BleActivity.this, bleDebug.class);
         intent.putExtra("device", devices.get(i));
         bltAdapter.cancelDiscovery();
         startActivity(intent);

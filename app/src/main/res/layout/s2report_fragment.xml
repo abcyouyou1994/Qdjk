@@ -1,130 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:orientation="vertical">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="400px">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="屏宽："/>
+            android:text="屏幕地址："/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/screencar_width"/>
+            android:id="@+id/screen2_sadress"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        >
+        android:layout_marginLeft="400px">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="屏高："/>
+            android:text="线路号："/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/screencar_height"/>
+            android:id="@+id/screen2_roadid"/>
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="400px">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="扫描方式："/>
+            android:text="显示状态："/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scan_type_sc"
-            android:entries="@array/scantype"/>
+            android:id="@+id/s2mode_display"
+            android:entries="@array/displaymode"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scanscar_type"/>
+            android:id="@+id/s2md"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="400px">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="数据极性"/>
+            android:text="文字大小"/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scardata_polority"
-            android:entries="@array/polarity">
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scardatapp"/>
-        </Spinner>
+            android:id="@+id/s2word_size"
+            android:entries="@array/woresize"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/words2_size"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="400px">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OE极性"/>
+            android:text="文字移动方向"/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scarOE_polority"
-            android:entries="@array/polarity"/>
+            android:id="@+id/s2word_direct"
+            android:entries="@array/worddirect"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scarOE"/>
+            android:id="@+id/s2direct"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="400px">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="亮度"/>
+            android:text="文字移动速度"/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scarlightl"
-            android:entries="@array/lightlevel"/>
+            android:id="@+id/s2word_velocity"
+            android:entries="@array/wmovel"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scarll"/>
+            android:id="@+id/s2ml"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="400px">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="设置"
-            android:id="@+id/scarp_setting"/>
+            android:id="@+id/s2r_setting"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查询"
-            android:id="@+id/scarp_select"/>
+            android:id="@+id/s2r_select"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="清空"
-            android:id="@+id/scarp_clear"/>
+            android:id="@+id/s2r_clear"/>
     </LinearLayout>
-
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="完成"
+        android:id="@+id/s2_reportfinish"
+        android:layout_marginLeft="400px"/>
 </LinearLayout>
